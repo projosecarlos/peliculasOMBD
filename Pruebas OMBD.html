@@ -54,16 +54,17 @@
                                 <a class="nav-link" href="#">Series</a>
                             </li>
                         </ul>
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <input id="keywords" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                             <button id="search" class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                     </div>
                 </nav>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 movies">
-                <div class="row">
-                    <div class="col-3">
+            <div class="col-12">
+                <!--Aquí es donde comienza la maquetación de las películas-->
+                <div class="row movies">
+                    <!--<div class="col-3">
                         <div class="card" style="width: 18rem;">
                             <img src="https://m.media-amazon.com/images/M/MV5BMTM3NTg2NDQzOF5BMl5BanBnXkFtZTcwNjc2NzQzOQ@@._V1_SX300.jpg"
                                 class="card-img-top" alt="Poster">
@@ -73,7 +74,7 @@
                                 <a href="#" class="btn btn-dark">More details</a>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -84,14 +85,18 @@
     <script>
         //Función para recoger los datos de la lista de películas de la búsqueda
         $("#search").click(function () {
+            var keywords = $("#keywords").val();
             $.ajax({
-                url: "http://www.omdbapi.com/?s=fast&apikey=ffbf2dce", success: function (result) {
+                url: "http://www.omdbapi.com/?s="+keywords+"&apikey=ffbf2dce", success: function (result) {
                     $.each(result.Search, function (i, e) {
-                        $("#peliculas").append("<img id=" + e.imdbID + " src=" + e.Poster + "/><br>");
+                        large = "<div class='card' style='width: 18rem;'><img class='card-img-top' src='"+e.Poster+"' alt='"+e.Title+"'><div class='card-body'><h5 class='card-title'>"+e.Title+"</h5><p class='card-text'>"+e.Year+"</p><button class='btn btn-dark my-2 my-sm-0' type='submit'>See Details</button></div></div>";  
+                        $(".movies").append(large);
                     }
                 )}
             })
         });
+
+
     </script>
     
 </body>
