@@ -12,7 +12,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!-- Mi CSS-->
-    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="stylesheet" href="styles/styles.css" type="text/css">
     </head>
 
 <body>
@@ -36,7 +36,9 @@
         <div class="row">
             <div class="col">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <a class="navbar-brand" href="#">Megatrix</a>
+                    <a class="navbar-brand" href="#">
+                        <img src="images/logo.png" width="125" height="50" alt="Logo Megatrix">
+                      </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +54,7 @@
                                 <a class="nav-link" href="#">Series</a>
                             </li>
                         </ul>
-                            <input class="form-control mr-sm-2 my-2 my-lg-0" type="search" placeholder="Search" aria-label="Search">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                             <button id="search" class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                     </div>
                 </nav>
@@ -85,7 +87,6 @@
             $.ajax({
                 url: "http://www.omdbapi.com/?s=fast&apikey=ffbf2dce", success: function (result) {
                     $.each(result.Search, function (i, e) {
-                        console.log(e.Title);
                         $("#peliculas").append("<img id=" + e.imdbID + " src=" + e.Poster + "/><br>");
                     }
                 )}
