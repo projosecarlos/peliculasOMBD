@@ -56,7 +56,6 @@
                             placeholder="Search" aria-label="Search">
                         <button id="search" class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                     </div>
-
                 </nav>
             </div>
         </div>
@@ -72,59 +71,68 @@
 
     <!--Scripts para el funcionamiento de la página-->
     <script>
-        $(function () {
-            var pagina = 1;
-            //Función para recoger los datos de la lista de películas de la búsqueda
-            $("#search").click(function () {
-                var keywords = $("#keywords").val();
-                $.ajax({
-                    url: "http://www.omdbapi.com/?s=" + keywords + "&page" + pagina + "&apikey=ffbf2dce", success: function (result) {
-                        $.each(result.Search, function (i, e) {
-                            card = "<div class='col 2 movies'><div class='card' style='width: 18rem; height: 36rem'><img class='card-img-top' style='height: 24rem;' src='" + e.Poster + "' alt='" + e.Title + "'><div class='card-body'><h5 class='card-title'>" + e.Title + "</h5><p class='card-text'><strong>Year: </strong>" + e.Year + "</p><button class='btn btn-dark my-2 my-sm-0' type='submit'>See Details</button></div></div></div>";
-                            $(".list").append(card);
-                            $(this).attr(e.imdbID);
+        var scrollbarBloqueado = true;
+        var pagina = 1;
 
+        function cambioDeImagen() {
+            $("img").on("error", function () {
+                $(this).attr("src", "images/not-found.png");
+            })
+        }
+
+        function insertaResultado(e) {
+            card = "<div class='col 2 movies'><div class='card' style='width: 18rem; height: 36rem'><img class='card-img-top' style='height: 24rem;' src='" + e.Poster + "' alt='" + e.Title + "'><div class='card-body'><h5 class='card-title'>" + e.Title + "</h5><p class='card-text'><strong>Year: </strong>" + e.Year + "</p><button class='btn btn-dark my-2 my-sm-0' type='submit'>See Details</button></div></div></div>";
+            cambioDeImagen();
+            $(".list").append(card);
+            $(this).attr(e.imdbID);
+            scrollbarBloqueado = false;
+        }
+
+        function compruebaFiltro(keywords) {
+            var a = $("#filter option:selected").val();
+            if ((a == "Movies") || (a == undefined) && scrollbarBloqueado == false) {
+                scrollbarBloqueado = true;
+                $.ajax({
+                    url: "http://www.omdbapi.com/?s=" + keywords + "&page=" + pagina + "&type=movie&apikey=ffbf2dce", success: function (result) {
+                        $.each(result.Search, function (i, e) {
+                            insertaResultado(e);
                         }
                         )
                         pagina++;
                     }
                 })
+            } else if (a == "Series") {
+                scrollBarBloqueado = true;
+                $.ajax({
+                    url: "http://www.omdbapi.com/?s=" + keywords + "&page=" + pagina + "&type=series&apikey=ffbf2dce", success: function (result) {
+                        $.each(result.Search, function (i, e) {
+                            insertaResultado(e);
+                        }
+                        )
+                        pagina++;
+                    }
+                })
+            }
+        }
+        $(function () {
+            //Función para recoger los datos de la lista de películas de la búsqueda
+            $("#search").click(function () {
+                $(".movies").remove();
+                var keywords = $("#keywords").val();
+                compruebaFiltro(keywords);
             });
 
             //Función para hacer scroll infinito
             $(window).on('scroll', function () {
                 var position = $(window).scrollTop();
                 var bottom = $(document).height() - $(window).height();
-                /*var distanceFromBottom = Math.floor($(document).height() - $(document).scrollTop() - $(window).height()); */
+                var keywords = $("#keywords").val();
+
                 if ((position == bottom)) {
-                    var a = $("#filter option:selected").val()
-                    if ((a == "Series") || (a == undefined)) {
-                        $.ajax({
-                            url: "http://www.omdbapi.com/?s=" + keywords + "&page=" + pagina + "&type=series&apikey=ffbf2dce", success: function (result) {
-                                $.each(result.Search, function (i, e) {
-                                    card = "<div class='col 2 movies'><div class='card' style='width: 18rem; height: 36rem'><img class='card-img-top' style='height: 24rem;' src='" + e.Poster + "' alt='" + e.Title + "'><div class='card-body'><h5 class='card-title'>" + e.Title + "</h5><p class='card-text'><strong>Year: </strong>" + e.Year + "</p><button class='btn btn-dark my-2 my-sm-0' type='submit'>See Details</button></div></div></div>";
-                                    $(".list").append(card);
-                                    $(this).attr(e.imdbID);
-                                    pagina++;
-                                }
-                                )
-                            }
-                        })
-                    } else if (a == "Movies") {
-                        $.ajax({
-                            url: "http://www.omdbapi.com/?s=" + keywords + "&page=" + pagina + "&type=Movie&apikey=ffbf2dce", success: function (result) {
-                                $.each(result.Search, function (i, e) {
-                                    card = "<div class='col 2 movies'><div class='card' style='width: 18rem; height: 36rem'><img class='card-img-top' style='height: 24rem;' src='" + e.Poster + "' alt='" + e.Title + "'><div class='card-body'><h5 class='card-title'>" + e.Title + "</h5><p class='card-text'><strong>Year: </strong>" + e.Year + "</p><button class='btn btn-dark my-2 my-sm-0' type='submit'>See Details</button></div></div></div>";
-                                    $(".list").append(card);
-                                    $(this).attr(e.imdbID);
-                                    pagina++;
-                                }
-                                )
-                            }
-                        })
-                    }
+                    compruebaFiltro(keywords);
                 }
-            });
+            })
+
             //Función para mostrar el detalle de cada película
 
         });
