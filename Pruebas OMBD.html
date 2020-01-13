@@ -67,6 +67,24 @@
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="movieDetails"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="movieTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!--Scripts para el funcionamiento de la página-->
@@ -81,7 +99,7 @@
         }
 
         function insertaResultado(e) {
-            card = "<div class='col 2 movies'><div class='card' style='width: 18rem; height: 36rem'><img class='card-img-top' style='height: 24rem;' src='" + e.Poster + "' alt='" + e.Title + "'><div class='card-body'><h5 class='card-title'>" + e.Title + "</h5><p class='card-text'><strong>Year: </strong>" + e.Year + "</p><button class='btn btn-dark my-2 my-sm-0' type='submit'>See Details</button></div></div></div>";
+            card = "<div class='col 2 movies'><div class='card' style='width: 18rem; height: 36rem'><img class='card-img-top' style='height: 24rem;' src='" + e.Poster + "' alt='" + e.Title + "'><div class='card-body'><h5 class='card-title'>" + e.Title + "</h5><p class='card-text'><strong>Year: </strong>" + e.Year + "</p><button class='btn btn-dark my-2 my-sm-0' type='submit' data-toggle='modal' data-target='#details'>See Details</button></div></div></div>";
             cambioDeImagen();
             $(".list").append(card);
             $(this).attr(e.imdbID);
