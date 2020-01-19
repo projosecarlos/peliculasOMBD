@@ -6,5 +6,22 @@ body{
     background: lightgray;
 }
 
+.list{
+    margin-left: 4rem;
+}
+
+#movieDetails{
+    background-color: rgba(165, 165, 165, 0.8);
+}
+
+#filter {
+    position: absolute!important;
+    left: 50%!important;
+    transform: translatex(-50%)!important;
+}
+
+
+
+
 
 

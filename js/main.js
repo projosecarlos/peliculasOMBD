@@ -1,7 +1,7 @@
 var blockedScrollBar = false;
 var page = 1;
 
-$(document).ready(() => { //
+$(document).ready(() => { 
     $("#closeDescription").click(() => {
         $("#movieDetails").fadeOut();
     });
