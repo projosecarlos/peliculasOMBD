@@ -12,3 +12,6 @@ Si se hace click en "Watch Details" se muestra una ventana modal con todos los d
 ![Captura1](https://github.com/projosecarlos/peliculasOMBD/blob/master/screenshot-filmFinder.png "Página Principal")
 
 ![Captura1](https://github.com/projosecarlos/peliculasOMBD/blob/master/screenshot-filmFinder2.png "Detalle de la Película")
+
+# Enlace en producción
+https://projosecarlos.github.io/peliculasOMBD/
